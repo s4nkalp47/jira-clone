@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.js"
@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "A mini clone of Atlassian Jira to practice concepts of backend engineering ",
+  "description": "A mini clone of Atlassian Jira",
   "devDependencies": {
     "nodemon": "^3.1.11"
   },
