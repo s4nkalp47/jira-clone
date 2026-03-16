@@ -1,8 +1,9 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import {connectDB} from "./config/db.js"
 
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -11,7 +12,8 @@ app.use(express.json());
 
 //Routes
 
-app.use("/api/users",userRoutes);
+app.use("/api/v1/users",userRoutes);
+app.use("/api/v1/auth",authRoutes);
 
 
 app.get("/health", (req,res) => {

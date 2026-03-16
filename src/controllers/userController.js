@@ -21,3 +21,7 @@ export const registerUser = async(req, res) => {
         res.status(500).json({ error: error.message});
     }
 };
+
+export const getCurrentUser = async (req, res) => {
+  res.json(req.user);
+};
