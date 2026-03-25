@@ -7,6 +7,10 @@ const projectSchema = new mongoose.Schema(
             required: true
         },
 
+        description: {
+            type: String,
+        },
+
         workspace: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Workspace",
@@ -15,8 +19,23 @@ const projectSchema = new mongoose.Schema(
 
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }
+            ref: "User",
+            required: true,
+        },
+
+        members: [
+            {
+                user: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                },
+                role: {
+                    type: String,
+                    enum: ["admin","member"],
+                    default: "member",
+                },
+            },
+        ],
     },
     {timestamps: true}
 );
