@@ -1,3 +1,4 @@
+import Membership from "../models/Membership.js";
 import Project from "../models/Project.js";
 import Workspace from "../models/Workspace.js";
 
@@ -11,11 +12,10 @@ export const createProject = async(req,res) => {
             return res.status(404).json({message: "Workspace not found"});
         }
 
-        const isMember = workspace.members.some((m) => m.user.toString() === req.user._id.toString());
-
-        if(!isMember){
-            return res.status(403).json({ message: "Not Authorized"});
-        }
+        const membership = await Membership.findOne({
+            user: req.user._id,
+            workspace: workspaceId
+        });
 
         const project = await Project.create({
             name,
@@ -34,3 +34,27 @@ export const createProject = async(req,res) => {
         res.status(500).json({ message: error.message});
     }
 }
+
+
+export const getProjectsByWorkspace = async(req, res) => {
+    try{
+        const {workspaceId} = req.params;
+
+        const membership = await Membership.findOne({
+            user: req.user._id,
+            workspace: workspaceId
+        });
+
+        if(!membership){
+            return res.status(403).json({ message: "Not authorized "});
+        }
+
+        const projects = await Project.find({
+            workspace: workspaceId
+        });
+
+        res.status(200).json(projects);
+    } catch(error){
+        res.status(500).json({ message: error.message });
+    }
+};

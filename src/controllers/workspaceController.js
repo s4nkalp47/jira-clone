@@ -27,6 +27,7 @@ export const getWorkSpace = async(req,res) => {
         const memberships = await Membership.find({
            user: req.user._id
         }).populate("workspace");
+        console.log("Memberships:", memberships);
         const workspaces = memberships.map(m => m.workspace);
         res.json(workspaces);
     } catch(error){
