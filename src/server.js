@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import workspaceRoutes from "./routes/workspacesRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js"
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use("/api/v1/users",userRoutes);
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/workspaces",workspaceRoutes);
 app.use("/api/v1/projects",projectRoutes)
+app.use(errorHandler);
 
 
 app.get("/health", (req,res) => {

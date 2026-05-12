@@ -2,7 +2,7 @@ import Membership from "../models/Membership.js";
 import Project from "../models/Project.js";
 import Workspace from "../models/Workspace.js";
 
-export const createProject = async(req,res) => {
+export const createProject = async(req,res,next) => {
     try{
         const {name,description,workspaceId} = req.body;
 
@@ -31,12 +31,12 @@ export const createProject = async(req,res) => {
         });
         res.status(201).json(project);
     } catch(error){
-        res.status(500).json({ message: error.message});
+        next(error);
     }
 }
 
 
-export const getProjectsByWorkspace = async(req, res) => {
+export const getProjectsByWorkspace = async(req, res, next) => {
     try{
         const {workspaceId} = req.params;
 
@@ -55,11 +55,11 @@ export const getProjectsByWorkspace = async(req, res) => {
 
         res.status(200).json(projects);
     } catch(error){
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-export const addProjectMember = async(req, res) => {
+export const addProjectMember = async(req, res, next) => {
     try{
         const { projectId} = req.params;
         const { userId, role } = req.body;
@@ -105,6 +105,6 @@ export const addProjectMember = async(req, res) => {
 
         res.status(200).json(project);
     }  catch(error){
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };

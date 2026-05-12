@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-export const registerUser = async(req, res) => {
+export const registerUser = async(req, res, next) => {
     try{
         const {name, email, password } = req.body;
 
@@ -18,10 +18,10 @@ export const registerUser = async(req, res) => {
         });
     }
     catch(error){
-        res.status(500).json({ error: error.message});
+        next(error);
     }
 };
 
-export const getCurrentUser = async (req, res) => {
-  res.json(req.user);
+export const getCurrentUser = async (req, res,next) => {
+  next(error);
 };

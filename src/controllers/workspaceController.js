@@ -1,7 +1,7 @@
 import Workspace from "../models/Workspace.js";
 import Membership from "../models/Membership.js";
 
-export const createWorkspace = async(req, res) => {
+export const createWorkspace = async(req, res, next) => {
     try{
         const { name } = req.body;
 
@@ -15,14 +15,13 @@ export const createWorkspace = async(req, res) => {
             workspace: workspace._id,
             role: "admin"
         });
-
         res.status(201).json(workspace);
     } catch(error){
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 }
 
-export const getWorkSpace = async(req,res) => {
+export const getWorkSpace = async(req,res,next) => {
     try{
         const memberships = await Membership.find({
            user: req.user._id
@@ -31,11 +30,11 @@ export const getWorkSpace = async(req,res) => {
         const workspaces = memberships.map(m => m.workspace);
         res.json(workspaces);
     } catch(error){
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
-export const addMember = async (req, res) => {
+export const addMember = async (req, res,next) => {
   try {
     const { email, role } = req.body;
     const { workspaceId } = req.params;
@@ -82,6 +81,6 @@ export const addMember = async (req, res) => {
     res.status(201).json(membership);
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
