@@ -1,8 +1,6 @@
-import { z } from "zod"
-
-const validate = (schema) => (req,res,next) => {
+export const validate = (schema) => async (req,res,next) => {
     try{
-        schema.parse(req.body);
+        req.body = await schema.parseAsync(req.body);
         next();
     }
     catch(error){
