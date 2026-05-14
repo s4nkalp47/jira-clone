@@ -4,7 +4,9 @@ import Workspace from "../models/Workspace.js";
 
 export const createProject = async(req,res,next) => {
     try{
-        const {name,description,workspaceId} = req.body;
+        const {name,description} = req.body;
+
+        const {workspaceId} = req.params;
 
         const workspace = await Workspace.findById(workspaceId);
 
@@ -16,6 +18,10 @@ export const createProject = async(req,res,next) => {
             user: req.user._id,
             workspace: workspaceId
         });
+
+        if(!membership){
+            return res.status(403).json({message: "Unauthorized"});
+        }
 
         const project = await Project.create({
             name,
@@ -93,7 +99,7 @@ export const addProjectMember = async(req, res, next) => {
         );
 
         if(alreadyMember){
-            return res.statud(400).json({ message: "Already a member "});
+            return res.status(400).json({ message: "Already a member "});
         }
 
         project.members.push({

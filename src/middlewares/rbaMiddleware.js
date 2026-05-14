@@ -21,7 +21,7 @@ export const requireWorkspaceRole = (roles = []) => {
             req.membership = membership;
             next();
         } catch(error){
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     }
 }
