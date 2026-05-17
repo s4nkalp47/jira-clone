@@ -7,7 +7,9 @@ import authRoutes from "./routes/authRoutes.js";
 import workspaceRoutes from "./routes/workspacesRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js"
 import taskRoutes from "./routes/taskRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
+
 
 dotenv.config();
 
@@ -21,7 +23,9 @@ app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/workspaces",workspaceRoutes);
 app.use("/api/v1/workspaces",projectRoutes);
 app.use("/api/v1",taskRoutes);
+app.use("/api/v1/",commentRoutes);
 app.use(errorHandler);
+
 
 
 app.get("/health", (req,res) => {
