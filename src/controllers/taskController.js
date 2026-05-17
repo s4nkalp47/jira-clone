@@ -1,5 +1,6 @@
 import Project from "../models/Project.js";
 import Task from "../models/Task.js";
+import logActivity from "../utils/logActivity.js";
 
 export const createTask = async(req,res,next) => {
     try{
@@ -34,6 +35,8 @@ export const createTask = async(req,res,next) => {
             assignee,
             reporter: req.user._id
         })
+
+        logActivity(req.user._id,task._id,"Created Task");
 
         res.status(201).json(task);
 
@@ -91,6 +94,8 @@ export const updateTask = async(req,res,next) => {
             updates, {new: true}
         );
 
+        logActivity(req.user._id,taskId,"Updated Task");
+
         res.status(200).json(task);
 
     }
@@ -104,6 +109,8 @@ export const deleteTask = async(req,res,next) => {
         const { taskId } = req.params;
 
         await Task.findByIdAndDelete(taskId)
+
+        logActivity(req.user._id,taskId,"Deleted Task");
 
         res.status(200).json({ message:
             "Task Deleted Succesfully"

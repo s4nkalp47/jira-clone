@@ -5,6 +5,8 @@ import {z} from "zod";
 
 import { createTask, getTasks, deleteTask, updateTask } from "../controllers/taskController.js";
 
+import { getActivities } from "../controllers/activityController.js";
+
 const router = express.Router();
 
 const taskSchema = z.object({
@@ -22,5 +24,7 @@ router.get("/projects/:projectId/tasks",protect,getTasks);
 router.patch("/tasks/:taskId",protect,updateTask);
 
 router.delete("/tasks/:taskId",protect,deleteTask);
+
+router.get("/tasks/:taskId/activity",protect,getActivities);
 
 export default router;
