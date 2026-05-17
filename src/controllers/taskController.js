@@ -1,6 +1,5 @@
 import Project from "../models/Project.js";
 import Task from "../models/Task.js";
-import User from "../models/User.js";
 
 export const createTask = async(req,res,next) => {
     try{
