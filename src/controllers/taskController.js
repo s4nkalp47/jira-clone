@@ -66,12 +66,25 @@ export const getTasks = async(req,res,next) => {
             });
         }
 
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
         const tasks = await Task.find({
             project: projectId
+        }).skip(skip).limit(limit);
+
+        const total = await Task.countDocuments({
+            project: projectId
+        });
+
+        res.status(200).json({
+            tasks,
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total/limit)
         })
-
-        res.status(200).json(tasks);
-
     }
     catch(error){
         next(error);
