@@ -9,6 +9,7 @@ import projectRoutes from "./routes/projectRoutes.js"
 import taskRoutes from "./routes/taskRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
+import { authLimiter } from "./middlewares/rateLimiter.js";
 
 
 dotenv.config();
@@ -19,7 +20,7 @@ app.use(express.json());
 //Routes
 
 app.use("/api/v1/users",userRoutes);
-app.use("/api/v1/auth",authRoutes);
+app.use("/api/v1/auth",authLimiter,authRoutes);
 app.use("/api/v1/workspaces",workspaceRoutes);
 app.use("/api/v1/workspaces",projectRoutes);
 app.use("/api/v1",taskRoutes);
