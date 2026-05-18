@@ -55,11 +55,26 @@ export const getProjectsByWorkspace = async(req, res, next) => {
             return res.status(403).json({ message: "Not authorized "});
         }
 
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
         const projects = await Project.find({
             workspace: workspaceId
-        });
+        }).skip(skip).limit(limit);
 
-        res.status(200).json(projects);
+        const total = await Project.countDocuments({
+            workspace: workspaceId
+        })
+
+        res.status(200).json({
+            projects,
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil( total / limit)
+        });
+        
     } catch(error){
         next(error);
     }

@@ -23,12 +23,20 @@ export const createWorkspace = async(req, res, next) => {
 
 export const getWorkSpace = async(req,res,next) => {
     try{
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page-1) * limit;
         const memberships = await Membership.find({
            user: req.user._id
-        }).populate("workspace");
-        console.log("Memberships:", memberships);
+        }).populate("workspace").skip(skip).limit(limit);
+        const total = await Membership.countDocuments({ user: req.user._id });
         const workspaces = memberships.map(m => m.workspace);
-        res.json(workspaces);
+        res.json({
+          workspaces,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit)
+        });
     } catch(error){
         next(error);
     }

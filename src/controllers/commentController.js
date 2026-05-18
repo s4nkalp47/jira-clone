@@ -38,11 +38,26 @@ export const getComments = async (req, res, next) => {
             })
         }
 
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
         const comments = await Comment.find({
             task: taskId
-        })
+        }).skip(skip).limit(limit);
+
+        const total = await Comment.countDocuments({
+            task: taskId
+        });
         
-        res.status(200).json(comments);
+        res.status(200).json({
+            comments,
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit)
+        });
+
     } catch (error) {
         next(error);
     }
