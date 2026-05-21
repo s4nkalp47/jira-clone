@@ -22,7 +22,7 @@ app.use(express.json());
 app.use("/api/v1/users",userRoutes);
 app.use("/api/v1/auth",authLimiter,authRoutes);
 app.use("/api/v1/workspaces",workspaceRoutes);
-app.use("/api/v1/workspaces",projectRoutes);
+app.use("/api/v1/projects",projectRoutes);
 app.use("/api/v1",taskRoutes);
 app.use("/api/v1/",commentRoutes);
 app.use(errorHandler);
